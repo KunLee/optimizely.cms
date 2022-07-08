@@ -81,6 +81,15 @@
             @{
                 var currentStepIndex = ViewBag.CurrentStepIndex == null ? -1 : (int)ViewBag.CurrentStepIndex;
                 string stepDisplaying;
+
+                var currentDisplayStepCount = Model.Form.Steps.Count();
+                // calculate the progress style on-server-side
+                var currentDisplayStepIndex = currentStepIndex + 1;
+                var progressWidth = (100 * currentDisplayStepIndex / currentDisplayStepCount) + "%";
+
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuenow= "@(100 * currentDisplayStepIndex / currentDisplayStepCount)" aria-valuemin="0" aria-valuemax="100" style="width: @progressWidth"></div>
+                </div>
             }
             @foreach (var step in Model.Form.Steps.Select((value, i) => new { i, value }))
             {
@@ -99,27 +108,30 @@
             }
 
             @{
-                var currentDisplayStepCount = Model.Form.Steps.Count();
                 if (currentDisplayStepCount > 1 && currentStepIndex > -1 && currentStepIndex < currentDisplayStepCount && !ViewBag.FormFinalized)
                 {
                     string prevButtonDisableState = (currentStepIndex == 0) || !ViewBag.Submittable ? "disabled" : "";
                     string nextButtonDisableState = (currentStepIndex == currentDisplayStepCount - 1) || !ViewBag.Submittable ? "disabled" : "";
+
+                    // calculate the progress style on-server-side
+                    //var currentDisplayStepIndex = currentStepIndex + 1;
+                    //var progressWidth = (100 * currentDisplayStepIndex / currentDisplayStepCount) + "%";
+
+                    //<div style="display: inline-block; width:100%" class="progress">
+                    //    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow= "@(100 * currentDisplayStepIndex / currentDisplayStepCount)" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                    //</div>
+
                     if (Model.ShowNavigationBar)
                     {
                         <!--nav role="navigation" class="Form__NavigationBar" data-f-type="navigationbar" data-f-element-nondata-->
                         <div class="d-flex justify-content-end">
-                            <div style="display: inline-block; padding-right: 300px">
+                            <div style="display: inline-block; padding-right: 450px">
                                 <button type="submit" name="submit" value="@SubmitButtonType.PreviousStep.ToString()" class="btn btn-warning Form__NavigationBar__Action FormExcludeDataRebind btnPrev"
                                         @prevButtonDisableState data-f-navigation-previous>
                                     @Html.Translate("/episerver/forms/viewmode/stepnavigation/previous")
                                 </button>
                             </div>
-                            @{
-                                // calculate the progress style on-server-side
-                                var currentDisplayStepIndex = currentStepIndex + 1;
-                                var progressWidth = (100 * currentDisplayStepIndex / currentDisplayStepCount) + "%";
-                            }
-
+                           
                             <div style="display: inline-block;" class="Form__NavigationBar__ProgressBar">
                                 <div class="Form__NavigationBar__ProgressBar--Progress" style="width:@progressWidth" data-f-navigation-progress></div>
                                 <div class="Form__NavigationBar__ProgressBar--Text">
@@ -128,7 +140,7 @@
                                     <span class="Form__NavigationBar__ProgressBar__StepsCount" data-f-navigation-stepcount>@currentDisplayStepCount</span>
                                 </div>
                             </div>
-                            <div style="display: inline-block; padding-left: 300px">
+                            <div style="display: inline-block; padding-left: 450px">
                                 <button type="submit" name="submit" value="@SubmitButtonType.NextStep.ToString()" class="btn btn-warning Form__NavigationBar__Action FormExcludeDataRebind btnNext"
                                         @nextButtonDisableState data-f-navigation-next>
                                     @Html.Translate("/episerver/forms/viewmode/stepnavigation/next")

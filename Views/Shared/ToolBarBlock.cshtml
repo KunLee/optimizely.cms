@@ -2,7 +2,21 @@
 @{
 }
 <br />
-<div class="d-flex flex-row-reverse p-2"><img class="imgformat p-2" src="/images/magnifying-glass-finder.png"/> <b>Find</b>
-    <img class="imgformat p-2"src="/images/add-file.png"/> <b>New</b>
+
+<div class="d-flex flex-row-reverse p-2">
+    <img class="imgformat p-2" src="/images/magnifying-glass-finder.png"/> <b><a onclick="dialogue_box(asdf)">Find</a></b>
+    <img class="imgformat p-2"src="/images/add-file.png"/> <b>
+    <a href = "https://localhost:5000"> New </a></b>
     <img class="imgformat p-2"src="/images/diskette.png"/> <b>Save</b>
 </div>
+
+@section Scripts {
+
+    <script>
+
+      function dialogue_box(){
+            alert("Click method that triggers click event on the link.");
+     }
+    </script>
+
+}

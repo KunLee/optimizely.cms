@@ -21,10 +21,10 @@
 
 @using (Html.BeginElement(Model, new { @class = "FormSelection" + cssClasses, data_f_type = "selection" }))
 {
-    <label for="@formElement.Guid" class="Form__Element__Caption" style="width: 400px">@labelText</label>
-    <select name="@formElement.ElementName" style="width: 600px" id="@formElement.Guid" @(Model.AllowMultiSelect ? "multiple" : "") @Html.Raw(Model.AttributesString) data-f-datainput
+    <label for="@formElement.Guid" class="Form__Element__Caption" style="width: 400px; height: 50px">@labelText</label>
+    <select name="@formElement.ElementName" id="@formElement.Guid" @(Model.AllowMultiSelect ? "multiple" : "") @Html.Raw(Model.AttributesString) data-f-datainput
             aria-describedby="@Util.GetAriaDescribedByElementName(formElement.ElementName)"
-            aria-invalid="@Util.GetAriaInvalidByValidationCssClasses(cssClasses)">
+            aria-invalid="@Util.GetAriaInvalidByValidationCssClasses(cssClasses)" style="width: 500px" >
         <!option disabled="disabled" @defaultOptionSelected value="">
             @(!string.IsNullOrWhiteSpace(placeholderText) ? placeholderText
                 : Html.Translate(string.Format("/episerver/forms/viewmode/selection/{0}", Model.AllowMultiSelect ? "selectoptions" : "selectanoption")))

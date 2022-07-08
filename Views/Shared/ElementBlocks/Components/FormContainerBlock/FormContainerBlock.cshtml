@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <div data-f-mainbody class="Form__MainBody d-flex">
+        <div data-f-mainbody class="Form__MainBody d-flex row">
             @{
                 var currentStepIndex = ViewBag.CurrentStepIndex == null ? -1 : (int)ViewBag.CurrentStepIndex;
                 string stepDisplaying;
@@ -106,17 +106,21 @@
                     string nextButtonDisableState = (currentStepIndex == currentDisplayStepCount - 1) || !ViewBag.Submittable ? "disabled" : "";
                     if (Model.ShowNavigationBar)
                     {
-                        <nav role="navigation" class="Form__NavigationBar" data-f-type="navigationbar" data-f-element-nondata>
-                            <button type="submit" name="submit" value="@SubmitButtonType.PreviousStep.ToString()" class="Form__NavigationBar__Action FormExcludeDataRebind btnPrev"
-                                    @prevButtonDisableState data-f-navigation-previous>
-                                @Html.Translate("/episerver/forms/viewmode/stepnavigation/previous")
-                            </button>
+                        <!--nav role="navigation" class="Form__NavigationBar" data-f-type="navigationbar" data-f-element-nondata-->
+                        <div class="d-flex justify-content-end">
+                            <div style="display: inline-block; padding-right: 300px">
+                                <button type="submit" name="submit" value="@SubmitButtonType.PreviousStep.ToString()" class="btn btn-warning Form__NavigationBar__Action FormExcludeDataRebind btnPrev"
+                                        @prevButtonDisableState data-f-navigation-previous>
+                                    @Html.Translate("/episerver/forms/viewmode/stepnavigation/previous")
+                                </button>
+                            </div>
                             @{
                                 // calculate the progress style on-server-side
                                 var currentDisplayStepIndex = currentStepIndex + 1;
                                 var progressWidth = (100 * currentDisplayStepIndex / currentDisplayStepCount) + "%";
                             }
-                            <div class="Form__NavigationBar__ProgressBar">
+
+                            <div style="display: inline-block;" class="Form__NavigationBar__ProgressBar">
                                 <div class="Form__NavigationBar__ProgressBar--Progress" style="width:@progressWidth" data-f-navigation-progress></div>
                                 <div class="Form__NavigationBar__ProgressBar--Text">
                                     <span class="Form__NavigationBar__ProgressBar__ProgressLabel">@Html.Translate("/episerver/forms/viewmode/stepnavigation/page")</span>
@@ -124,11 +128,13 @@
                                     <span class="Form__NavigationBar__ProgressBar__StepsCount" data-f-navigation-stepcount>@currentDisplayStepCount</span>
                                 </div>
                             </div>
-                            <button type="submit" name="submit" value="@SubmitButtonType.NextStep.ToString()" class="Form__NavigationBar__Action FormExcludeDataRebind btnNext"
-                                    @nextButtonDisableState data-f-navigation-next>
-                                @Html.Translate("/episerver/forms/viewmode/stepnavigation/next")
-                            </button>
-                        </nav>
+                            <div style="display: inline-block; padding-left: 300px">
+                                <button type="submit" name="submit" value="@SubmitButtonType.NextStep.ToString()" class="btn btn-warning Form__NavigationBar__Action FormExcludeDataRebind btnNext"
+                                        @nextButtonDisableState data-f-navigation-next>
+                                    @Html.Translate("/episerver/forms/viewmode/stepnavigation/next")
+                                </button>
+                            </div>
+                        </div>
                     }
                 }
             }

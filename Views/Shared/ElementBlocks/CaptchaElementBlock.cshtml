@@ -1,0 +1,31 @@
+@*
+    ====================================
+    Version: 5.0.0.0. Modified: 20210818
+    ====================================
+*@
+
+@model EPiServer.Forms.Implementation.Elements.CaptchaElementBlock;
+@using EPiServer.Forms.Helpers.Internal;
+@using EPiServer.Shell.Web.Mvc.Html;
+@using EPiServer.Forms;
+
+@{
+    var formElement = Model.FormElement;
+    var labelText = Model.Label;
+}
+
+@using (Html.BeginElement(Model, new { @class = "FormCaptcha", @data_f_type = "captcha" }))
+{
+    <label class="Form__Element__Caption" for="@formElement.Guid ">
+        @labelText
+    </label>
+    <button name="submit" type="submit" data-f-captcha-image-handler="@formElement.Guid" value="@SubmitButtonType.RefreshCaptcha.ToString()"
+            class="FormExcludeDataRebind FormCaptcha__Refresh" data-f-captcha-refresh>
+        @Model.RefreshButtonLabel
+    </button>
+    <img src="@Model.CaptchaImageHandler" alt="@Html.Translate("/contenttypes/captchaelementblock/captchaimagealt")" class="FormCaptcha__Image" @Html.Raw(Model.AttributesString) data-f-captcha-image />
+    <input id="@formElement.Guid" name="@formElement.ElementName" type="text" class="FormTextbox__Input FormCaptcha__Input FormHideInSummarized" @Html.Raw(Model.AttributesString) data-f-datainput aria-describedby="@Util.GetAriaDescribedByElementName(formElement.ElementName)"
+                aria-invalid="@Util.GetAriaInvalidByValidationCssClasses(Model.GetValidationCssClasses())"/>
+
+    @Html.ValidationMessageFor(Model)
+}

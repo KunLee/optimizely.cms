@@ -1,0 +1,49 @@
+@*
+    ====================================
+    Version: 5.0.0.0. Modified: 20210818
+    ====================================
+*@
+
+@using EPiServer.Forms.Helpers.Internal
+@using EPiServer.Forms.Implementation.Elements
+@using EPiServer.ServiceLocation
+@model ImageChoiceElementBlock
+
+@{
+    var formElement = Model.FormElement;
+    var labelText = Model.Label;
+    var urlResolver = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<EPiServer.Web.Routing.UrlResolver>();
+    var sShouldBeVisible = Model.ShowSelectionInputControl ? "" : "visually-hidden";
+    var cssClasses = Model.GetValidationCssClasses();
+}
+
+@using (Html.BeginElement(Model, new { id = formElement.Guid, @class = "FormChoice FormChoice--Image" + cssClasses, data_f_type = "choice", aria_invalid = Util.GetAriaInvalidByValidationCssClasses(cssClasses) }, true))
+{
+    <fieldset aria-describedby="@Util.GetAriaDescribedByElementName(formElement.ElementName)">
+        @if (!string.IsNullOrEmpty(labelText))
+        {
+            <legend class="Form__Element__Caption">@labelText</legend>
+        }
+        @foreach (var item in Model.Items.Select((value, i) => new { i, value }))
+        {
+            var imageChoiceId = string.Format("{0}_{1}", formElement.Guid, item.i);
+            var defaultCheckedString = Model.GetDefaultSelectedString(item.value);
+            var checkedString = string.IsNullOrEmpty(defaultCheckedString) ? string.Empty : "checked";
+
+            <label for="@imageChoiceId" class="FormChoice--Image__Item">
+                @if (Model.AllowMultiSelect)
+                {
+                    <input type="checkbox" id="@imageChoiceId" name="@formElement.ElementName" value="@item.value.Text" @checkedString @defaultCheckedString class="FormChoice__Input FormChoice__Input--Checkbox @sShouldBeVisible" data-f-datainput />
+                }
+                else
+                {
+                    <input type="radio" id="@imageChoiceId" name="@formElement.ElementName" value="@item.value.Text" @checkedString @defaultCheckedString class="FormChoice__Input FormChoice__Input--Radio @sShouldBeVisible" data-f-datainput />
+                }
+                <span class="FormChoice--Image__Item__Caption">@item.value.Text</span>
+                <img src="@urlResolver.GetUrl(item.value.GetMappedHref())" title="@(item.value.Title ?? item.value.Text)" alt="@(item.value.Title ?? item.value.Text)" />
+            </label>
+        }
+    </fieldset>
+
+    @Html.ValidationMessageFor(Model)
+}

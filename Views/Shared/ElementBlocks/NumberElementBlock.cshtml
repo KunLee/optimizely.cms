@@ -1,0 +1,27 @@
+@*
+    ====================================
+    Version: 5.0.0.0. Modified: 20210818
+    ====================================
+*@
+
+@using EPiServer.Forms.Helpers.Internal
+@using EPiServer.Forms.Implementation.Elements
+@model NumberElementBlock
+
+@{
+    var formElement = Model.FormElement;
+    var labelText = Model.Label;
+    var cssClasses = Model.GetValidationCssClasses();
+}
+
+@using (Html.BeginElement(Model, new { @class = "FormTextbox FormTextbox--Number" + cssClasses, @data_f_type = "textbox", data_f_modifier = "number" }))
+{
+    <label for="@formElement.Guid" class="Form__Element__Caption">@labelText</label>
+    <input name="@formElement.ElementName" id="@formElement.Guid" type="number"
+           @(!string.IsNullOrWhiteSpace(Model.PlaceHolder) ? Html.Raw($"placeholder=\"{Model.PlaceHolder}\""): "")
+           class="FormTextbox__Input" @Html.Raw(Model.AttributesString) data-f-datainput
+           value="@Model.GetDefaultValue()" aria-describedby="@Util.GetAriaDescribedByElementName(formElement.ElementName)"
+           aria-invalid="@Util.GetAriaInvalidByValidationCssClasses(cssClasses)" />
+    @Html.ValidationMessageFor(Model)
+    @Model.RenderDataList()
+}

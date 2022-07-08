@@ -46,3 +46,11 @@ input[type="checkbox"].input-validation-error {
     border-color: #f47320;
     color: #ffffff
 }
+
+.forms-label-width {
+    width:400px;
+}
+
+.forms-content-width {
+    width: 600px;
+}

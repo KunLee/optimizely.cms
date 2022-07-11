@@ -1,0 +1,28 @@
+@*
+    ====================================
+    Version: 5.0.0.0. Modified: 20210818
+    ====================================
+*@
+
+@using EPiServer.Forms.Core
+@using EPiServer.Forms.EditView
+@using EPiServer.Forms.Implementation.Elements
+@using EPiServer.ServiceLocation
+@using EPiServer.Web
+@model VisitorDataHiddenElementBlock
+
+@{
+    var extraCssClass = Model is IViewModeInvisibleElement ? ConstantsFormsUI.CSS_InvisibleElement : string.Empty;
+    var formElement = Model.FormElement;
+    var currentMode = ServiceLocator.Current.GetInstance<IContextModeResolver>().CurrentMode;
+
+
+    if (currentMode == ContextMode.Edit)
+    {
+        <span class="Form__Element FormHidden @extraCssClass ">@Model.EditViewFriendlyTitle</span>
+    }
+    else
+    {
+        <input name="@formElement.ElementName" id="@formElement.Guid" type="hidden" class="Form__Element FormHidden FormHideInSummarized" @Html.Raw(Model.AttributesString) data-f-type="hidden"/>
+    }
+}

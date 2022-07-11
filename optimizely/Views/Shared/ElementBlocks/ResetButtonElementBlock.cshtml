@@ -1,0 +1,12 @@
+@*
+    ====================================
+    Version: 5.0.0.0. Modified: 20210818
+    ====================================
+*@
+
+@using EPiServer.Forms.Implementation.Elements
+@model ResetButtonElementBlock
+
+<input type="reset" form="@Model.FormElement.Form.FormGuid"
+       class="Form__Element FormResetButton Form__Element--NonData" data-f-element-nondata @Html.Raw(Model.AttributesString)
+       value="@Model.Label" data-f-type="resetbutton">

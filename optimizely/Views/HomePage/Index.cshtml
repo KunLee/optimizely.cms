@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using EPiServer.Web.Mvc.Html
+@model repos.models.pages.HomePage
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @Html.PropertyFor(x => x.Main)
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        
+        function CallWebAPI() {
+            alert("called me");
+
+            //var name = document.getElementById("txtName").value;
+            //var person = '{Name: "' + name + '" }';
+            var request;
+            if (window.XMLHttpRequest) {
+                //New browsers.
+                request = new XMLHttpRequest();
+            }
+            else if (window.ActiveXObject) {
+                //Old IE Browsers.
+                request = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+           if (request != null) {
+                var url = "https://uat.westernpower.transactcentral.com/forms/servlet/FormDynamicDataServlet?RetailerReferenceNum=0304894853&sfmRequestKey=5ffc3e98265021855af149255659fead&sfmServiceName=EGA_Application_RRN_Validation";
+                request.open("POST", url, false);
+                request.setRequestHeader("Content-Type", "application/json");
+                request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                request.setRequestHeader('Access-Control-Allow-Origin', '*');
+                request.onreadystatechange = function () {
+                    if (request.readyState == 4 && request.status == 200) {
+                        var response = JSON.parse(request.responseText);
+                        alert(response);
+                        //alert("Hello: " + response.Name + ".\nCurrent Date and Time: " + response.DateTime);
+                    }
+                };
+                request.send(null);
+            }
+        }
+    </script>
+}

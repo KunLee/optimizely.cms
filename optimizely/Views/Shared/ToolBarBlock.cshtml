@@ -1,0 +1,21 @@
+﻿@model repos.models.blocks.ToolBarBlock
+@{
+}
+<br />
+
+<div class="d-flex flex-row-reverse p-2" style="height:50px">
+    <div style="display:inline-block; padding-right:20px"><img class="imgformat" src="/images/magnifying-glass-finder.png"/> <b><a onclick="dialogue_box(asdf)">Find</a></b></div>
+    <div style="display:inline-block; padding-right:20px"><img class="imgformat"src="/images/add-file.png"/> <b> <a href = "https://localhost:5000"> New </a></b></div>
+    <div style="display:inline-block; padding-right:20px"><img class="imgformat"src="/images/diskette.png"/> <b>Save</b></div>
+</div>
+
+@section Scripts {
+
+    <script>
+
+         function dialogue_box()
+         {
+                alert("Click method that triggers click event on the link.");
+         }
+    </script>
+}

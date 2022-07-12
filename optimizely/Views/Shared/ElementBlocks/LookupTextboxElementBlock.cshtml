@@ -6,11 +6,13 @@
 
 @using EPiServer.Forms.Helpers.Internal
 @using EPiServer.Forms.Implementation.Elements
-@model TextboxElementBlock
+@using repos.models.blocks.ElementBlock
+@model LookupTextboxElementBlock
 
 @{
     var formElement = Model.FormElement;
     var labelText = Model.Label;
+    var buttonText = Model.ButtonName;
     var cssClasses = Model.GetValidationCssClasses();
 }
 
@@ -22,7 +24,7 @@
            @(!string.IsNullOrWhiteSpace(Model.PlaceHolder) ? Html.Raw($"placeholder=\"{Model.PlaceHolder}\""): "")
            value="@Model.GetDefaultValue()" @Html.Raw(Model.AttributesString) data-f-datainput
            aria-invalid="@Util.GetAriaInvalidByValidationCssClasses(cssClasses)" />
-    <button type="button" class="btn btn-warning"></button>
+    <button type="button" class="btn btn-warning btn-sm"> @buttonText </button>
     @Html.ValidationMessageFor(Model)
     @Model.RenderDataList()
 }

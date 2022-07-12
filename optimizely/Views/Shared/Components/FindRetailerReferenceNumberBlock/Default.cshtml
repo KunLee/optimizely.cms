@@ -1,0 +1,87 @@
+﻿@using EPiServer.Web.Mvc.Html
+@model repos.models.blocks.FindRetailerReferenceNumberBlock
+@{
+    //Layout = "_Layout";
+}
+
+<div class="d-flex">
+    <div style="display: inline-block">
+        <!--@Html.PropertyFor(x => x.ContentEntry)-->
+        <button type="button" name="lookup" onclick="CallWebAPI()"> Find </button>
+    </div>
+    <div-- style="display: inline-block">
+        <!--@Html.PropertyFor(x => x.ContentSubmit)-->
+    </div>
+
+    <!--form method="post" enctype="multipart/form-data" asp-controller="Find" asp-action="Index">
+        <table>
+            <tr>
+                <td>First Name: </td>
+                <td><input type="text" id="txtFirstName" name="FirstName"/></td>
+            </tr>
+            <tr>
+                <td>Last Name: </td>
+                <td><input type="text" id="txtLastName" name="LastName"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Submit"/></td>
+            </tr>
+        </table>
+        <hr/>
+        @ViewBag.Name
+    </form-->
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+       /*
+        function popup() {
+            alert("Pop UP!!!~~~~~~~~~~~~");
+        }
+        function aKontoSubmit() {
+            $.ajax({
+                type: "POST",
+                url: '/Akontas/GetAKONTA',
+                data: $('form').serialize(),
+                dataType: "json",
+                success: function (result) {
+                    // action to do after form submit
+                    alert("Hello");
+                },
+                error: function () {
+                    alert("Error while inserting data");
+                }
+            });
+        }
+
+        function CallWebAPI() {
+            alert("called me");
+            var name = document.getElementById("txtName").value;
+            var person = '{Name: "' + name + '" }';
+            var request;
+            if (window.XMLHttpRequest) {
+                //New browsers.
+                request = new XMLHttpRequest();
+            }
+            else if (window.ActiveXObject) {
+                //Old IE Browsers.
+                request = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+           if (request != null) {
+                var url = "https://uat.westernpower.transactcentral.com/forms/servlet/FormDynamicDataServlet?RetailerReferenceNum=0304894853&sfmRequestKey=5ffc3e98265021855af149255659fead&sfmServiceName=EGA_Application_RRN_Validation";
+                request.open("POST", url, false);
+                request.setRequestHeader("Content-Type", "application/json");
+                request.onreadystatechange = function () {
+                    if (request.readyState == 4 && request.status == 200) {
+                        var response = JSON.parse(request.responseText);
+                        alert(response);
+                        //alert("Hello: " + response.Name + ".\nCurrent Date and Time: " + response.DateTime);
+                    }
+                };
+                request.send(person);
+            }
+        }*/
+    </script>
+}

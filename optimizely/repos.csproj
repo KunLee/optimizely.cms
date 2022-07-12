@@ -71,7 +71,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Views\Shared\ElementBlocks\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 </Project>

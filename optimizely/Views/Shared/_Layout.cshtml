@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using EPiServer.Framework.Web.Mvc.Html
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -18,7 +19,7 @@
     </environment>
 </head>
 <body>
-    
+    @Html.RequiredClientResources("Header")
     @*<nav class="navbar navbar-inverse navbar-fixed-top brand-color">*@
     <nav class="brand-color navbar navbar-inverse navbar-fixed-top" style="background-color: #f47320;border-color: #f47320;color: #ffffff">
         <div class="container">
@@ -83,5 +84,6 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+    @Html.RequiredClientResources("Footer")
 </body>
 </html>

@@ -23,21 +23,52 @@ namespace repos.models.blocks.ElementBlock
         public virtual IList<ApiReturnMapping>? ApiReturnMappings { get; set; }
 
         [Display(
-           Name = "Address field",
+           Name = "Address Field",
            GroupName = SystemTabNames.Content,
            Order = 450)]
-        [CultureSpecific]
         [SelectOne(SelectionFactoryType = typeof(LookupOptionsSelectionFactory))]
         public virtual string? AddressField { get; set; }
 
         [Display(
-           Name = "RRN field",
+           Name = "RRN Field",
+           GroupName = SystemTabNames.Content,
+           Order = 500)]
+        [SelectOne(SelectionFactoryType = typeof(LookupOptionsSelectionFactory))]
+        public virtual string? RRNField { get; set; }
+
+        [Display(
+           Name = "Coonection Type Field",
            GroupName = SystemTabNames.Content,
            Order = 550)]
         [SelectOne(SelectionFactoryType = typeof(LookupOptionsSelectionFactory))]
-        public virtual string? RRNField { get; set; }
+        public virtual string? CoonectionTypeField { get; set; }
+
+        [Display(
+           Name = "Coonection Phase Field",
+           GroupName = SystemTabNames.Content,
+           Order = 600)]
+        [SelectOne(SelectionFactoryType = typeof(LookupOptionsSelectionFactory))]
+        public virtual string? CoonectionPhaseField { get; set; }
+
+        [Display(
+           Name = "Export Offtake Agreement Field",
+           GroupName = SystemTabNames.Content,
+           Order = 650)]
+        [SelectOne(SelectionFactoryType = typeof(LookupOptionsSelectionFactory))]
+        public virtual string? ExportOfftakeField { get; set; }
+
+        [Display(
+          Name = "Emergency Solar Management Field",
+          GroupName = SystemTabNames.Content,
+          Order = 700)]
+        [SelectOne(SelectionFactoryType = typeof(LookupOptionsSelectionFactory))]
+        public virtual string? EmergencySolarManagementField { get; set; }
     }
 
+    /// <summary>
+    /// The factory used for looping through containing form elements in the Form container.
+    /// Then in the settings of LookupTextboxElementBlock where use this list to map the meaningful fields for frontend value settings. 
+    /// </summary>
     public class LookupOptionsSelectionFactory : ISelectionFactory
     {
         public IEnumerable<ISelectItem> GetSelections(ExtendedMetadata metadata)
@@ -54,7 +85,7 @@ namespace repos.models.blocks.ElementBlock
                 foreach (var item in formContainer.ElementsArea.FilteredItems)
                 {
                     var elementBlock = contentLoader.Get<ElementBlockBase>(item.ContentLink);
-                    if (!(elementBlock is LookupTextboxElementBlock))
+                    if (elementBlock is not LookupTextboxElementBlock)
                     {
                         items.Add(new SelectItem
                         {

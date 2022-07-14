@@ -26,43 +26,66 @@
            @(!string.IsNullOrWhiteSpace(Model.PlaceHolder) ? Html.Raw($"placeholder=\"{Model.PlaceHolder}\""): "")
            value="@Model.GetDefaultValue()" @Html.Raw(Model.AttributesString) data-f-datainput
            aria-invalid="@Util.GetAriaInvalidByValidationCssClasses(cssClasses)" />
-    <button type="button" class="btn btn-warning btn-sm" onclick="CallWebAPI()"> @buttonText </button>
+    <button type="button" class="btn btn-warning btn-sm" onclick="CallRRNWebAPI()"> @buttonText </button>
+
+    
+
     @Html.ValidationMessageFor(Model)
     @Model.RenderDataList()
 
+
+    <script type="text/javascript">
+
+        function CallRRNWebAPI() 
+        {
+            //var name = document.getElementById("txtName").value;
+            var request;
+            if (window.XMLHttpRequest) {
+                //New browsers.
+                request = new XMLHttpRequest();
+            }
+            else if (window.ActiveXObject) {
+                //Old IE Browsers.
+                request = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+           if (request != null) {
+               $body.addClass('loading');
+               var control = document.getElementById("@formElement.Guid");
+               
+                var url = "https://localhost:7066/api/ExternalService/" + document.getElementById("@formElement.Guid").value;
+                console.dir(url);
+                request.open("GET", url);
+                request.setRequestHeader("Content-Type", "application/json");
+                request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                request.setRequestHeader('Access-Control-Allow-Origin', '*');
+                request.onreadystatechange = function () {
+                    if (request.readyState == 4 && request.status == 200) {
+ 
+                        SetValuesToForm(request.responseText);
+                        $body.removeClass('loading');
+                        //alert("Hello: " + response.Name + ".\nCurrent Date and Time: " + response.DateTime);
+                    }
+                };
+                request.send(null);
+            }
+        }
+
+        function SetValuesToForm(response) 
+        {
+            console.dir(response);
+            var responseObjs = JSON.parse(response);
+
+            document.getElementById("@Model.RRNField").value = document.getElementById("@formElement.Guid").value;
+            console.dir(response);
+            document.getElementById("@Model.ReturnField").value = response;
+            document.getElementById("@Model.AddressField").value = responseObjs["Address1"];
+
+        }
+    </script>
+
 }
 
+@section Scripts{
 
-<script type="text/javascript">
-        
-    function CallWebAPI() {
-        alert("called me");
-
-        //var name = document.getElementById("txtName").value;
-        //var person = '{Name: "' + name + '" }';
-        var request;
-        if (window.XMLHttpRequest) {
-            //New browsers.
-            request = new XMLHttpRequest();
-        }
-        else if (window.ActiveXObject) {
-            //Old IE Browsers.
-            request = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        if (request != null) {
-            var url = "https://localhost:7066/api/ExternalService/3";
-            request.open("POST", url, false);
-            request.setRequestHeader("Content-Type", "application/json");
-            request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            request.setRequestHeader('Access-Control-Allow-Origin', '*');
-            request.onreadystatechange = function () {
-                if (request.readyState == 4 && request.status == 200) {
-                    var response = JSON.parse(request.responseText);
-                    alert(response);
-                    //alert("Hello: " + response.Name + ".\nCurrent Date and Time: " + response.DateTime);
-                }
-            };
-            request.send(null);
-        }
-    }
-</script>
+    
+}

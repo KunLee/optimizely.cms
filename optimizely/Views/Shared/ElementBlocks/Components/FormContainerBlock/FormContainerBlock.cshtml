@@ -32,24 +32,24 @@
 
         if (!ViewBag.IsWorkingInNonJSMode)
         {
-            @await Html.PartialAsync("FormContainerInitScript", Model)
+    @await Html.PartialAsync("FormContainerInitScript", Model)
         }
 
         //Meta data, send along as a SYSTEM information about this form, so this can work without JS
-        <input type="hidden" class="Form__Element Form__SystemElement FormHidden FormHideInSummarized" name="__FormGuid" value="@Model.Form.FormGuid" data-f-type="hidden" autocomplete="off" />
-        <input type="hidden" class="Form__Element Form__SystemElement FormHidden FormHideInSummarized" name="__FormHostedPage" value="@FormsExtensions.GetCurrentPageLink().ToString()" data-f-type="hidden" autocomplete="off" />
-        <input type="hidden" class="Form__Element Form__SystemElement FormHidden FormHideInSummarized" name="__FormLanguage" value="@FormsExtensions.GetCurrentFormLanguage(Model)" data-f-type="hidden" autocomplete="off" />
-        <input type="hidden" class="Form__Element Form__SystemElement FormHidden FormHideInSummarized" name="__FormCurrentStepIndex" value="@(ViewBag.CurrentStepIndex ?? " ")" data-f-type="hidden" autocomplete="off" />
-        <input type="hidden" class="Form__Element Form__SystemElement FormHidden FormHideInSummarized" name="__FormSubmissionId" value="@ViewBag.FormSubmissionId" data-f-type="hidden" autocomplete="off" />
+    <input type="hidden" class="Form__Element Form__SystemElement FormHidden FormHideInSummarized" name="__FormGuid" value="@Model.Form.FormGuid" data-f-type="hidden" autocomplete="off" />
+    <input type="hidden" class="Form__Element Form__SystemElement FormHidden FormHideInSummarized" name="__FormHostedPage" value="@FormsExtensions.GetCurrentPageLink().ToString()" data-f-type="hidden" autocomplete="off" />
+    <input type="hidden" class="Form__Element Form__SystemElement FormHidden FormHideInSummarized" name="__FormLanguage" value="@FormsExtensions.GetCurrentFormLanguage(Model)" data-f-type="hidden" autocomplete="off" />
+    <input type="hidden" class="Form__Element Form__SystemElement FormHidden FormHideInSummarized" name="__FormCurrentStepIndex" value="@(ViewBag.CurrentStepIndex ?? " ")" data-f-type="hidden" autocomplete="off" />
+    <input type="hidden" class="Form__Element Form__SystemElement FormHidden FormHideInSummarized" name="__FormSubmissionId" value="@ViewBag.FormSubmissionId" data-f-type="hidden" autocomplete="off" />
 
-        @Html.GenerateAntiForgeryToken(Model)
+    @Html.GenerateAntiForgeryToken(Model)
         if (!string.IsNullOrEmpty(Model.Title))
         {
-            <h2 class="Form__Title">@Model.Title</h2>
+    <h2 class="Form__Title">@Model.Title</h2>
         }
         if (!string.IsNullOrEmpty(Model.Description))
         {
-            <aside class="Form__Description">@Model.Description</aside>
+    <aside class="Form__Description">@Model.Description</aside>
         }
 
         if (ViewBag.FormFinalized || ViewBag.IsProgressiveSubmit)
@@ -63,94 +63,88 @@
 
         if (ViewBag.IsReadOnlyMode && !string.IsNullOrWhiteSpace(readOnlyModeMessage))
         {
-            <div class="Form__Status">
-                <span class="Form__Readonly__Message" role="alert">
-                    @readOnlyModeMessage
-                </span>
-            </div>
+    <div class="Form__Status">
+                            <span class="Form__Readonly__Message" role="alert">
+                                @readOnlyModeMessage
+                            </span>
+    </div>
         }
 
         //area for showing Form's status or validation
-        <div class="Form__Status">
-            <div role="alert" aria-live="polite" class="Form__Status__Message @statusDisplay" data-f-form-statusmessage>
-                @Html.Raw(message)
-            </div>
-        </div>
-
-        <div data-f-mainbody class="Form__MainBody d-flex row">
-            @{
-                var currentStepIndex = ViewBag.CurrentStepIndex == null ? -1 : (int)ViewBag.CurrentStepIndex;
-                string stepDisplaying;
-
-                var currentDisplayStepCount = Model.Form.Steps.Count();
-                // calculate the progress style on-server-side
-                var currentDisplayStepIndex = currentStepIndex + 1;
-                var progressWidth = (100 * currentDisplayStepIndex / currentDisplayStepCount) + "%";
-
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuenow= "@(100 * currentDisplayStepIndex / currentDisplayStepCount)" aria-valuemin="0" aria-valuemax="100" style="width: @progressWidth"></div>
-                </div>
-            }
-            @foreach (var step in Model.Form.Steps.Select((value, i) => new { i, value }))
-            {
-                stepDisplaying = (currentStepIndex == step.i && !ViewBag.FormFinalized && (bool)ViewBag.IsStepValidToDisplay) ? "" : "hide";
-                var stepBlock = (step.value.SourceContent as ElementBlockBase);
-                <section id="@step.value.ElementName" data-f-type="step" data-f-element-name="@step.value.ElementName" class="Form__Element FormStep Form__Element--NonData @stepDisplaying" data-f-stepindex="@step.i" data-f-element-nondata>
-                    @if (stepBlock != null)
-                    {
-                        Html.RenderContentData(step.value.SourceContent, false);
-                    }
-                    <!-- Each FormStep groups the elements below it til the next FormStep -->
-                    @{
-                        Html.RenderElementsInStep(step.i, step.value.Elements);
-                    }
-                </section>
-            }
-
-            @{
-                if (currentDisplayStepCount > 1 && currentStepIndex > -1 && currentStepIndex < currentDisplayStepCount && !ViewBag.FormFinalized)
-                {
-                    string prevButtonDisableState = (currentStepIndex == 0) || !ViewBag.Submittable ? "disabled" : "";
-                    string nextButtonDisableState = (currentStepIndex == currentDisplayStepCount - 1) || !ViewBag.Submittable ? "disabled" : "";
-
-                    // calculate the progress style on-server-side
-                    //var currentDisplayStepIndex = currentStepIndex + 1;
-                    //var progressWidth = (100 * currentDisplayStepIndex / currentDisplayStepCount) + "%";
-
-                    //<div style="display: inline-block; width:100%" class="progress">
-                    //    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow= "@(100 * currentDisplayStepIndex / currentDisplayStepCount)" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
-                    //</div>
-
-                    if (Model.ShowNavigationBar)
-                    {
-                        <!--nav role="navigation" class="Form__NavigationBar" data-f-type="navigationbar" data-f-element-nondata-->
-                        <div class="d-flex justify-content-end">
-                            <div style="display: inline-block; padding-right: 450px">
-                                <button type="submit" name="submit" value="@SubmitButtonType.PreviousStep.ToString()" class="btn btn-warning Form__NavigationBar__Action FormExcludeDataRebind btnPrev"
-                                        @prevButtonDisableState data-f-navigation-previous>
-                                    @Html.Translate("/episerver/forms/viewmode/stepnavigation/previous")
-                                </button>
-                            </div>
-                           
-                            <div style="display: inline-block;" class="Form__NavigationBar__ProgressBar">
-                                <div class="Form__NavigationBar__ProgressBar--Progress" style="width:@progressWidth" data-f-navigation-progress></div>
-                                <div class="Form__NavigationBar__ProgressBar--Text">
-                                    <span class="Form__NavigationBar__ProgressBar__ProgressLabel">@Html.Translate("/episerver/forms/viewmode/stepnavigation/page")</span>
-                                    <span class="Form__NavigationBar__ProgressBar__CurrentStep" data-f-navigation-currentstep>@currentDisplayStepIndex</span>/
-                                    <span class="Form__NavigationBar__ProgressBar__StepsCount" data-f-navigation-stepcount>@currentDisplayStepCount</span>
-                                </div>
-                            </div>
-                            <div style="display: inline-block; padding-left: 450px">
-                                <button type="submit" name="submit" value="@SubmitButtonType.NextStep.ToString()" class="btn btn-warning Form__NavigationBar__Action FormExcludeDataRebind btnNext"
-                                        @nextButtonDisableState data-f-navigation-next>
-                                    @Html.Translate("/episerver/forms/viewmode/stepnavigation/next")
-                                </button>
-                            </div>
+    <div class="Form__Status">
+                        <div role="alert" aria-live="polite" class="Form__Status__Message @statusDisplay" data-f-form-statusmessage>
+                            @Html.Raw(message)
                         </div>
-                    }
+    </div>
+
+    <div data-f-mainbody class="Form__MainBody">
+                @{
+            var currentStepIndex = ViewBag.CurrentStepIndex == null ? -1 : (int)ViewBag.CurrentStepIndex;
+            string stepDisplaying;
+                }
+                @foreach (var step in Model.Form.Steps.Select((value, i) => new { i, value }))
+        {
+            stepDisplaying = (currentStepIndex == step.i && !ViewBag.FormFinalized && (bool)ViewBag.IsStepValidToDisplay) ? "" : "hide";
+            var stepBlock = (step.value.SourceContent as ElementBlockBase);
+                    <section id="@step.value.ElementName" data-f-type="step" data-f-element-name="@step.value.ElementName" class="Form__Element FormStep Form__Element--NonData @stepDisplaying" data-f-stepindex="@step.i" data-f-element-nondata>
+                        @if (stepBlock != null)
+                {
+                    Html.RenderContentData(step.value.SourceContent, false);
+                }
+                        <!-- Each FormStep groups the elements below it til the next FormStep -->
+                        @{
+                Html.RenderElementsInStep(step.i, step.value.Elements);
+                        }
+                    </section>
+        }
+
+                @{
+            var currentDisplayStepCount = Model.Form.Steps.Count();
+            if (currentDisplayStepCount > 1 && currentStepIndex > -1 && currentStepIndex < currentDisplayStepCount && !ViewBag.FormFinalized)
+            {
+                string prevButtonDisableState = (currentStepIndex == 0) || !ViewBag.Submittable ? "disabled" : "";
+                string nextButtonDisableState = (currentStepIndex == currentDisplayStepCount - 1) || !ViewBag.Submittable ? "disabled" : "";
+
+                if (Model.ShowNavigationBar)
+                {
+                                    <nav role="navigation" class="Form__NavigationBar"  data-f-type="navigationbar" data-f-element-nondata>
+                                        <!-- btn default class Form__NavigationBar__Action FormExcludeDataRebind btnPrev -->
+                                        <button type="submit" name="submit" value="@SubmitButtonType.PreviousStep.ToString()" class="btn btn-warning"
+                                                @prevButtonDisableState data-f-navigation-previous>
+                                            @Html.Translate("/episerver/forms/viewmode/stepnavigation/previous")
+                                        </button>
+
+                                        @{
+                            // calculate the progress style on-server-side
+                            var currentDisplayStepIndex = currentStepIndex + 1;
+                            var progressWidth = (100 * currentDisplayStepIndex / currentDisplayStepCount) + "%";
+                                        }
+                                        <!--div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                                    role="progressbar" 
+                                                    aria-valuenow= "50" 
+                                                    aria-valuemin="0" aria-valuemax="100" 
+                                                    style="width:70%"></div>
+                                        </div-->
+
+                                        <div class="Form__NavigationBar__ProgressBar" style="width:800px; ">
+                                            <div class="Form__NavigationBar__ProgressBar--Progress" style="width:@progressWidth; background-color: #f47320; border-color: #f47320;" data-f-navigation-progress></div>
+                                            <div class="Form__NavigationBar__ProgressBar--Text">
+                                                <span class="Form__NavigationBar__ProgressBar__ProgressLabel">@Html.Translate("/episerver/forms/viewmode/stepnavigation/page")</span>
+                                                <span class="Form__NavigationBar__ProgressBar__CurrentStep" data-f-navigation-currentstep>@currentDisplayStepIndex</span>/
+                                                <span class="Form__NavigationBar__ProgressBar__StepsCount" data-f-navigation-stepcount>@currentDisplayStepCount</span>
+                                            </div>
+                                        </div>
+                                        <!--  btn default class Form__NavigationBar__Action FormExcludeDataRebind btnNext -->
+                                        <button type="submit" name="submit" value="@SubmitButtonType.NextStep.ToString()" class=" btn btn-warning"
+                                                @nextButtonDisableState data-f-navigation-next>
+                                            @Html.Translate("/episerver/forms/viewmode/stepnavigation/next")
+                                        </button>
+                                    </nav>
                 }
             }
-        </div>
+                }
+    </div>
     }
 }
 

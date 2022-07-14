@@ -8,5 +8,5 @@
 @model ResetButtonElementBlock
 
 <input type="reset" form="@Model.FormElement.Form.FormGuid"
-       class="Form__Element FormResetButton Form__Element--NonData" data-f-element-nondata @Html.Raw(Model.AttributesString)
+       class="btn btn-warning Form__Element FormResetButton Form__Element--NonData" data-f-element-nondata @Html.Raw(Model.AttributesString)
        value="@Model.Label" data-f-type="resetbutton">

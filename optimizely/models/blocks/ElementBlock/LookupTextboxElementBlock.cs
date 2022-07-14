@@ -37,6 +37,13 @@ namespace repos.models.blocks.ElementBlock
         public virtual string? RRNField { get; set; }
 
         [Display(
+           Name = "Return Field",
+           GroupName = SystemTabNames.Content,
+           Order = 520)]
+        [SelectOne(SelectionFactoryType = typeof(LookupOptionsSelectionFactory))]
+        public virtual string? ReturnField { get; set; }
+
+        [Display(
            Name = "Coonection Type Field",
            GroupName = SystemTabNames.Content,
            Order = 550)]

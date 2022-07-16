@@ -1,7 +1,7 @@
 ﻿using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
-using repos.Interfaces;
+using repos.Contracts;
 using repos.Services;
 
 namespace repos.Initialization
@@ -13,6 +13,7 @@ namespace repos.Initialization
         {
             //context.Services.AddTransient<ILookupService, LookupService>();
             context.Services.AddSingleton<ILookupService, LookupService>();
+            context.Services.AddTransient<IExternalOutputService, ExternalOutputService>();
         }
 
         public void Initialize(InitializationEngine context)

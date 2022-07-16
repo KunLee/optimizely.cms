@@ -1,4 +1,4 @@
-﻿using webapi.Interfaces;
+﻿using webapi.Contracts;
 
 namespace webapi.Impls
 {

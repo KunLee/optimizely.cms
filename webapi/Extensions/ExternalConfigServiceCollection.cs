@@ -1,5 +1,5 @@
 ﻿using webapi.Impls;
-using webapi.Interfaces;
+using webapi.Contracts;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

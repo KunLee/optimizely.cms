@@ -33,6 +33,7 @@ namespace webapi.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            Console.Write(value);
         }
 
         // PUT api/<ExternalServiceController>/5

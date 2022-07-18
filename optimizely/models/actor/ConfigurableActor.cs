@@ -54,14 +54,8 @@ namespace repos.models.actor
             #region Execute main business of this actor
 
             // MAIN BUSINESS SHOULD BE HERE: use the usename, password, to send the transformedData to 3rd party server, or save to XML file
-            try 
-            { 
-                await _externalOutputService.SendOutput(endpoint, username, password);
 
-            }catch(HttpRequestException e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            await _externalOutputService.SendOutput(transformedData, endpoint, username, password);
 
             #endregion
 

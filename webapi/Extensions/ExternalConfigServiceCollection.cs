@@ -13,7 +13,8 @@ namespace Microsoft.Extensions.DependencyInjection
             //    config.GetSection(PositionOptions.Position));
             //services.Configure<ColorOptions>(
             //    config.GetSection(ColorOptions.Color));
-            services.AddScoped<IExternalService, ExternalService>();
+            //services.AddScoped<IExternalService, ExternalService>();
+            services.AddHttpClient<IExternalService, ExternalService>();
 
             return services;
         }

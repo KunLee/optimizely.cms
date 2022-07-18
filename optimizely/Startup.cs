@@ -4,6 +4,8 @@ using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using repos.Contracts;
+using repos.Extensions;
+using repos.Services;
 
 namespace repos;
 
@@ -25,7 +27,7 @@ public class Startup
             services.Configure<SchedulerOptions>(options => options.Enabled = false);
         }
 
-        services.AddHttpClient<IExternalOutputService>();
+        services.AddHttpClient<IExternalOutputService, ExternalOutputService>();
         services.AddCmsAspNetIdentity<ApplicationUser>()
             .AddCms()
             .AddAdminUserRegistration()
@@ -38,7 +40,8 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
         }
-
+        
+        //app.ConfigureExceptionHandler(_logger);
         app.UseStaticFiles();
         app.UseRouting();
         app.UseAuthentication();

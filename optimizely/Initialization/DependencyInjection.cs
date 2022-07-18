@@ -13,7 +13,7 @@ namespace repos.Initialization
         {
             //context.Services.AddTransient<ILookupService, LookupService>();
             context.Services.AddSingleton<ILookupService, LookupService>();
-            context.Services.AddTransient<IExternalOutputService, ExternalOutputService>();
+            //context.Services.AddTransient<IExternalOutputService, ExternalOutputService>();
         }
 
         public void Initialize(InitializationEngine context)

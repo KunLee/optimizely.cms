@@ -3,6 +3,7 @@ using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
+using Microsoft.AspNetCore.Diagnostics;
 using repos.Contracts;
 using repos.Extensions;
 using repos.Services;
@@ -34,14 +35,19 @@ public class Startup
             .AddEmbeddedLocalization<Startup>();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
     {
+        app.ConfigureExceptionHandler(logger);
+
         if (env.IsDevelopment())
         {
-            app.UseDeveloperExceptionPage();
+            
+            //app.UseDeveloperExceptionPage();
         }
+
+        //app.ConfigureCustomExceptionMiddleware();
+
         
-        //app.ConfigureExceptionHandler(_logger);
         app.UseStaticFiles();
         app.UseRouting();
         app.UseAuthentication();

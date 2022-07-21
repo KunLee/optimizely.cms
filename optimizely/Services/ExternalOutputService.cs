@@ -23,9 +23,13 @@ namespace repos.Services
             var transformedData = JsonConvert.SerializeObject(data);
             //_httpClient.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             //_httpClient.DefaultRequestHeaders.Add(HeaderNames.UserAgent, "HttpRequestsSample");
-
-            HttpResponseMessage response = await _httpClient.PostAsJsonAsync(uri, transformedData);
-
+            //try {
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync("asdfasdf", transformedData);
+            //}
+            //catch (Exception ex) {
+            //    throw ex;
+            throw new Exception("Come here!!!");
+            //}
             response.EnsureSuccessStatusCode();
 
             return response.Content;

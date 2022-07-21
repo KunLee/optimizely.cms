@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
+using repos.CustomExceptionMiddleware;
 using repos.ExceptionModels;
 using System.Net;
 
@@ -6,6 +7,11 @@ namespace repos.Extensions
 {
     public static class ExceptionMiddlewareExtensions
     {
+        public static void ConfigureCustomExceptionMiddleware(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionMiddleware>();
+        }
+
         public static void ConfigureExceptionHandler(this IApplicationBuilder app, ILogger logger)
         {
             app.UseExceptionHandler(appError =>

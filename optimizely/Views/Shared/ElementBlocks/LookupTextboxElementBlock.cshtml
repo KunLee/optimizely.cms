@@ -75,10 +75,22 @@
             console.dir(response);
             var responseObjs = JSON.parse(response);
 
-            document.getElementById("@Model.RRNField").value = document.getElementById("@formElement.Guid").value;
-            console.dir(response);
-            document.getElementById("@Model.ReturnField").value = response;
-            document.getElementById("@Model.AddressField").value = responseObjs["Address1"];
+            $('#@Model.ReturnField').val(response);
+            console.dir(responseObjs["SpecialComment"]);
+            var valueToSet = responseObjs["SpecialComment"].split('^');
+            
+
+            $('#@Model.ExportOfftakeField').val(valueToSet[1]);
+             $('#@Model.CoonectionPhaseField').val(responseObjs["supplyPhasesNo"].split('^')[1]);
+            $('#@Model.CoonectionTypeField').val(responseObjs["supplyTransfomerKVA"].split('^')[1]);
+            $('#@Model.EmergencySolarManagementField').val(responseObjs["serviceOrderId"].split('^')[1]);
+            $('#@Model.LocalNetwork').val(responseObjs["nmi"].split('^')[1]);
+
+             console.dir("Here!");
+            $('#@Model.AddressField').append($('<option>', {
+                value: responseObjs["Address1"],
+                text: responseObjs["Address1"]
+            }));
 
         }
     </script>

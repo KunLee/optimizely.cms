@@ -58,6 +58,13 @@ namespace repos.models.blocks.ElementBlock
         public virtual string? CoonectionPhaseField { get; set; }
 
         [Display(
+           Name = "Local Network",
+           GroupName = SystemTabNames.Content,
+           Order = 600)]
+        [SelectOne(SelectionFactoryType = typeof(LookupOptionsSelectionFactory))]
+        public virtual string? LocalNetwork { get; set; }
+
+        [Display(
            Name = "Export Offtake Agreement Field",
            GroupName = SystemTabNames.Content,
            Order = 650)]

@@ -34,7 +34,11 @@ namespace repos.models.actor
             var transformedData = new Dictionary<string, object>();
             foreach (var submissionKv in this.SubmissionData.Data)
             {
-                transformedData.Add("Demo_" + submissionKv.Key, submissionKv.Value + "_DemoValue");
+                var element = SubmissionFriendlyNameInfos.FirstOrDefault(x => x.ElementId == submissionKv.Key);
+                if (element != null)
+                {
+                    transformedData.Add(element.FriendlyName, submissionKv.Value);
+                }
             }
 
             //this.SubmissionFriendlyNameInfos  // field mappings to get friendly name of each field
@@ -49,13 +53,15 @@ namespace repos.models.actor
             var username = GetConfigValue(configs, "username");
             var password = GetConfigValue(configs, "password");
             var endpoint = GetConfigValue(configs, "endpoint");
+            var baseAddress = GetConfigValue(configs, "baseAddress");
+            var token = GetConfigValue(configs, "token");
             #endregion
 
             #region Execute main business of this actor
 
             // MAIN BUSINESS SHOULD BE HERE: use the usename, password, to send the transformedData to 3rd party server, or save to XML file
 
-            await _externalOutputService.SendOutput(transformedData, endpoint, username, password);
+            await _externalOutputService.SendOutput(transformedData, baseAddress, endpoint, token, username, password);
 
             #endregion
 

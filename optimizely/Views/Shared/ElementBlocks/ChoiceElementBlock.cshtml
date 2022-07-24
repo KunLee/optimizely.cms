@@ -26,7 +26,7 @@
             var defaultCheckedString = Model.GetDefaultSelectedString(item);
             var checkedString = string.IsNullOrEmpty(defaultCheckedString) ? string.Empty : "checked";
 
-            <label style="padding-left: 250px; font-size:12px; margin-left: auto; margin-right: 0;">
+            <label style="font-size:12px; margin-left: auto; margin-right: 0;">
                 @if (Model.AllowMultiSelect)
                 {
                     <input type="checkbox" name="@formElement.ElementName" value="@item.Value" style="padding-left: 50px; font-size:12px; margin-left: auto; margin-right: 0;" class="FormChoice__Input FormChoice__Input--Checkbox" @checkedString @defaultCheckedString data-f-datainput />

@@ -2665,7 +2665,7 @@ These functionality will be performed by this script:
 
                 var currentDisplayStepIndex = currentStepIndex + 1, // one-base index
                     currentDisplayStepCount = workingFormInfo.StepsInfo.Steps.length;
-
+                console.dir(currentDisplayStepIndex);
                 // update the navigation bar
                 $(".Form__NavigationBar, [data-f-type='navigationbar']", workingFormInfo.$workingForm).toggle(workingFormInfo.ShowNavigationBar);
                 $(".Form__NavigationBar__ProgressBar__CurrentStep, [data-f-navigation-currentStep]", $navbar).text(currentDisplayStepIndex);
@@ -2673,7 +2673,10 @@ These functionality will be performed by this script:
                 $(".Form__NavigationBar__ProgressBar--Progress, [data-f-navigation-progress]", $navbar).css({
                     width: 100 * currentDisplayStepIndex / currentDisplayStepCount + "%"
                 });
+                $(".stepper-item, [data-progress]", $navbar).addClass("completed");
             }
+
+           
 
             // return the DOM object of current Step bases on CurrentStepIndex
             function _getCurrentStepDOM(workingFormInfo) {

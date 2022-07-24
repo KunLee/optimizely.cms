@@ -15,8 +15,8 @@
 }
 @using (Html.BeginElement(Model, new { @class = "FormTextbox FormTextbox--Textarea" + cssClasses, data_f_type = "textbox", data_f_modifier = "textarea" }))
 {
-    <label for="@formElement.Guid" class="Form__Element__Caption"  style="width: 400px; height: 50px">@labelText</label>
-    <textarea name="@formElement.ElementName" id="@formElement.Guid" class="FormTextbox__Input" style="width: 800px"
+    <label for="@formElement.Guid" class="Form__Element__Caption"  style="width: 450px; max-width:450px">@labelText</label>
+    <textarea name="@formElement.ElementName" id="@formElement.Guid" class="FormTextbox__Input"
         @(!string.IsNullOrWhiteSpace(Model.PlaceHolder) ? Html.Raw($"placeholder=\"{Model.PlaceHolder}\""): "")
         data-f-label="@labelText" data-f-datainput
         @Html.Raw(Model.AttributesString) aria-describedby="@Util.GetAriaDescribedByElementName(formElement.ElementName)"

@@ -70,5 +70,12 @@
     <Content Remove="C:\Users\meimi\.nuget\packages\bootstrap\5.1.3\contentFiles\any\any\wwwroot\js\bootstrap.js.map" />
     <Content Remove="C:\Users\meimi\.nuget\packages\bootstrap\5.1.3\contentFiles\any\any\wwwroot\js\bootstrap.min.js" />
     <Content Remove="C:\Users\meimi\.nuget\packages\bootstrap\5.1.3\contentFiles\any\any\wwwroot\js\bootstrap.min.js.map" />
+    <Content Remove="wwwroot\css\FormStyle.css" />
+    <Content Remove="wwwroot\js\FormScript.js" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="wwwroot\css\FormStyle.css" />
+    <None Include="wwwroot\js\FormScript.js" />
   </ItemGroup>
 </Project>

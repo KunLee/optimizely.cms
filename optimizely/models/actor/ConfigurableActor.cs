@@ -74,7 +74,7 @@ namespace repos.models.actor
 
             #endregion
 
-            return ret;
+            return result;
         }
 
         private string GetConfigValue(IEnumerable<ConfigurableActorModel> configs, string key)

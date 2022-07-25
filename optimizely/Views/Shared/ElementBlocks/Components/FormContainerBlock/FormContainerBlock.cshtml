@@ -78,13 +78,13 @@
         </div>
 
         <div data-f-mainbody>
-            <div style="height:650px;">
+            <div style="height:670px;">
                 @{
                     var currentStepIndex = ViewBag.CurrentStepIndex == null ? -1 : (int)ViewBag.CurrentStepIndex;
                     var originStepIndex = (int)ViewBag.CurrentStepIndex;
                     string stepDisplaying;
                 }
-                <div class="row stepper-wrapper" style="margin-left:-150px;">
+                <div class="row stepper-wrapper" style="margin-left:-120px;">
                 @foreach(var oneStep in Model.Form.Steps.Select((value, i) => new { i, value }))
                 {   
                     var stepShown = (currentStepIndex >= oneStep.i && !ViewBag.FormFinalized && (bool)ViewBag.IsStepValidToDisplay) ? "completed" : "";
@@ -148,14 +148,14 @@
                                         style="width:70%"></div>
                             </div-->
                             <div class="col-lg-9">
-                                <div class="Form__NavigationBar__ProgressBar"  style="padding:0">
+                                <!--div class="Form__NavigationBar__ProgressBar"  style="padding:0">
                                 <div class="Form__NavigationBar__ProgressBar--Text">
-                                        <!--span class="Form__NavigationBar__ProgressBar__ProgressLabel">@Html.Translate("/episerver/forms/viewmode/stepnavigation/page")</span>
+                                        <span class="Form__NavigationBar__ProgressBar__ProgressLabel">@Html.Translate("/episerver/forms/viewmode/stepnavigation/page")</span>
                                         <span class="Form__NavigationBar__ProgressBar__CurrentStep" data-f-navigation-currentstep>@currentDisplayStepIndex</span>
-                                        <span class="Form__NavigationBar__ProgressBar__StepsCount" data-f-navigation-stepcount>@currentDisplayStepCount</span-->
+                                        <span class="Form__NavigationBar__ProgressBar__StepsCount" data-f-navigation-stepcount>@currentDisplayStepCount</span>
                                     </div>
                                     <div class="Form__NavigationBar__ProgressBar--Progress" style="width:@progressWidth; background-color: #f47320; border-color: #f47320;" data-f-navigation-progress></div>
-                                </div>
+                                </div-->
                             </div>
                             <div class="col-sm-1" style="padding:0">
                                 <!--  btn default class Form__NavigationBar__Action FormExcludeDataRebind btnNext -->

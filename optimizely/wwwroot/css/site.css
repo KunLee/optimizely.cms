@@ -13,15 +13,17 @@
 input[name][type]:not([type='radio']),
 select,
 textarea {
-    max-width: 800px;
-    width: 450px;
+    max-width: 1000px;
+    width: 530px;
 }
 
 input[name][type='radio'] {
     width: 100px;
 }
 
-label {
+label.Form__Element__Caption {
+    width: 440px;
+    max-width: 600px;
     height: 35px;
 }
 /* styles for validation helpers */

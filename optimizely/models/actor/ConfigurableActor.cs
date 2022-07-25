@@ -1,5 +1,6 @@
 ﻿using EPiServer.Cms.Shell.UI.ObjectEditing.EditorDescriptors;
 using EPiServer.Forms.Core.PostSubmissionActor;
+using EPiServer.Forms.Core.PostSubmissionActor.Internal;
 using EPiServer.Forms.EditView;
 using EPiServer.Framework.DataAnnotations;
 using EPiServer.PlugIn;
@@ -8,7 +9,7 @@ using repos.Contracts;
 
 namespace repos.models.actor
 {
-    public class ConfigurableActor : PostSubmissionActorBase, IUIPropertyCustomCollection
+    public class ConfigurableActor : PostSubmissionActorBase, IUIPropertyCustomCollection, ISyncOrderedSubmissionActor
     {
         private readonly IExternalOutputService _externalOutputService;
         public ConfigurableActor(IExternalOutputService externalOutputService) 
@@ -59,9 +60,17 @@ namespace repos.models.actor
 
             #region Execute main business of this actor
 
+            var result = new SubmissionActorResult { CancelSubmit = false, ErrorMessage = string.Empty };
             // MAIN BUSINESS SHOULD BE HERE: use the usename, password, to send the transformedData to 3rd party server, or save to XML file
 
-            await _externalOutputService.SendOutput(transformedData, baseAddress, endpoint, token, username, password);
+            try 
+            {
+                await _externalOutputService.SendOutput(transformedData, baseAddress, endpoint, token, username, password);
+            }
+            catch (Exception ex) {
+                result.CancelSubmit = true;
+                result.ErrorMessage = ex.Message;
+            }
 
             #endregion
 
@@ -89,6 +98,8 @@ namespace repos.models.actor
                 return typeof(PropertyForDisplayingConfigurableActor);
             }
         }
+
+        public int Order => 1;
 
         #endregion
     }

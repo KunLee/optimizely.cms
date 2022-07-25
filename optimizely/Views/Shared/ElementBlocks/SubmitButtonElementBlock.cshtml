@@ -25,7 +25,7 @@
         data-f-element-name="@formElement.ElementName"
         @Html.Raw(Model.AttributesString)
         @buttonDisableState
-        class="btn btn-lg btn-block btn-warning @(Model.Image == null ? "Form__Element FormExcludeDataRebind FormSubmitButton " + cssClasses : "Form__Element FormExcludeDataRebind FormSubmitButton FormImageSubmitButton " + cssClasses)">
+        class="btn btn-warning @(Model.Image == null ? "Form__Element FormExcludeDataRebind FormSubmitButton " + cssClasses : "Form__Element FormExcludeDataRebind FormSubmitButton FormImageSubmitButton " + cssClasses)">
     @if (Model.Image == null)
     {
         @buttonText

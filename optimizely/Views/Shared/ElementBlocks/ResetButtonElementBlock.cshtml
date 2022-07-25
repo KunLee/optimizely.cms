@@ -6,7 +6,10 @@
 
 @using EPiServer.Forms.Implementation.Elements
 @model ResetButtonElementBlock
+@{
+    var formElement = Model.FormElement;
+}
 
-<input type="reset" form="@Model.FormElement.Form.FormGuid"
-       class="Form__Element FormResetButton Form__Element--NonData" data-f-element-nondata @Html.Raw(Model.AttributesString)
+<input type="reset" form="@Model.FormElement.Form.FormGuid" style="width: 110px"
+       class="btn btn-warning Form__Element FormResetButton Form__Element--NonData" data-f-element-nondata @Html.Raw(Model.AttributesString)
        value="@Model.Label" data-f-type="resetbutton">

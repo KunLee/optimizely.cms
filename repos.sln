@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "repos", "optimizely/repos.csproj", "{BF380FE6-A97B-4716-92DD-FF2DB02E0793}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "repos", "optimizely\repos.csproj", "{BF380FE6-A97B-4716-92DD-FF2DB02E0793}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webapi", "webapi\webapi.csproj", "{D8F1C0D2-1EC9-4DAD-A516-25EE80BC9F34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{BF380FE6-A97B-4716-92DD-FF2DB02E0793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF380FE6-A97B-4716-92DD-FF2DB02E0793}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF380FE6-A97B-4716-92DD-FF2DB02E0793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8F1C0D2-1EC9-4DAD-A516-25EE80BC9F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8F1C0D2-1EC9-4DAD-A516-25EE80BC9F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8F1C0D2-1EC9-4DAD-A516-25EE80BC9F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8F1C0D2-1EC9-4DAD-A516-25EE80BC9F34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

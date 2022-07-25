@@ -1,4 +1,4 @@
-﻿namespace repos.Interfaces
+﻿namespace repos.Contracts
 {
     public interface ILookupService
     {

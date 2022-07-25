@@ -24,11 +24,11 @@
 {
     if (ServiceLocator.Current.GetInstance<IContextModeResolver>().CurrentMode == ContextMode.Edit)
     {
-        <div id="@formElement.Guid" @Html.Raw(Model.AttributesString)>@Html.Raw(Model.EditViewFriendlyTitle)</div>
+        <div id="@formElement.Guid" @Html.Raw(Model.AttributesString) style="font-size:8px">@Html.Raw(Model.EditViewFriendlyTitle)</div>
     }
     else
     {
-        <div id="@formElement.Guid" @Html.Raw(Model.AttributesString)>@Html.Raw(formBusinessService.ToHtmlStringWithFriendlyUrls(paragraphText))</div>
+        <div id="@formElement.Guid" @Html.Raw(Model.AttributesString) style="height:380px">@Html.Raw(formBusinessService.ToHtmlStringWithFriendlyUrls(paragraphText))</div>
         <script type="text/javascript">
             if (typeof $$epiforms !== 'undefined') {
                 $$epiforms(document).ready(function () {

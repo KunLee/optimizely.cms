@@ -3,6 +3,10 @@ using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
+using Microsoft.AspNetCore.Diagnostics;
+using repos.Contracts;
+using repos.Extensions;
+using repos.Services;
 
 namespace repos;
 
@@ -24,20 +28,26 @@ public class Startup
             services.Configure<SchedulerOptions>(options => options.Enabled = false);
         }
 
-        services
-            .AddCmsAspNetIdentity<ApplicationUser>()
+        services.AddHttpClient<IExternalOutputService, ExternalOutputService>();
+        services.AddCmsAspNetIdentity<ApplicationUser>()
             .AddCms()
             .AddAdminUserRegistration()
             .AddEmbeddedLocalization<Startup>();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
     {
+        app.ConfigureExceptionHandler(logger);
+
         if (env.IsDevelopment())
         {
-            app.UseDeveloperExceptionPage();
+            
+            //app.UseDeveloperExceptionPage();
         }
 
+        //app.ConfigureCustomExceptionMiddleware();
+
+        
         app.UseStaticFiles();
         app.UseRouting();
         app.UseAuthentication();

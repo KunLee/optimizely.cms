@@ -8,7 +8,7 @@ namespace repos.models.controllers
     {
         public IActionResult Index(HomePage currentPage, string firstName, string lastName)
         {
-
+            //throw new Exception("Come here!!!");
             return View(currentPage);
         }
     }

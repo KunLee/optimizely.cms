@@ -10,21 +10,113 @@
 @model LookupTextboxElementBlock
 
 @{
+    var formContainer = Model.FindOwnerForm();
     var formElement = Model.FormElement;
     var labelText = Model.Label;
+    var propertyList = Model.ApiReturnMappings;
     var buttonText = Model.ButtonName;
     var cssClasses = Model.GetValidationCssClasses();
 }
 
 @using (Html.BeginElement(Model, new { @class = "FormTextbox" + cssClasses, data_f_type = "textbox" }))
 {
-    <label for="@formElement.Guid" class="Form__Element__Caption" style="width: 400px; height: 50px">@labelText</label>
-    <input name="@formElement.ElementName" id="@formElement.Guid" type="text" class="FormTextbox__Input" size="1500" style="width: 800px"
+    <label for="@formElement.Guid" class="Form__Element__Caption">@labelText</label>
+    <input name="@formElement.ElementName" id="@formElement.Guid" type="text" class="FormTextbox__Input"
            aria-describedby="@Util.GetAriaDescribedByElementName(formElement.ElementName)" 
            @(!string.IsNullOrWhiteSpace(Model.PlaceHolder) ? Html.Raw($"placeholder=\"{Model.PlaceHolder}\""): "")
            value="@Model.GetDefaultValue()" @Html.Raw(Model.AttributesString) data-f-datainput
            aria-invalid="@Util.GetAriaInvalidByValidationCssClasses(cssClasses)" />
-    <button type="button" class="btn btn-warning btn-sm"> @buttonText </button>
+    <button type="button" class="btn btn-warning btn-sm" style="width:80px;" onclick="callRrnVerfication()"> @buttonText </button>
+
     @Html.ValidationMessageFor(Model)
     @Model.RenderDataList()
+
+    <script type="text/javascript">
+
+        function callRrnVerfication() 
+        {
+            //var name = document.getElementById("txtName").value;
+            var request;
+            if (window.XMLHttpRequest) {
+                //New browsers.
+                request = new XMLHttpRequest();
+            }
+            else if (window.ActiveXObject) {
+                //Old IE Browsers.
+                request = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+           if (request != null) {
+               $body.addClass('loading');
+               var control = document.getElementById("@formElement.Guid");
+               
+                var url = "https://localhost:7066/api/ExternalService/" + document.getElementById("@formElement.Guid").value;
+                console.dir(url);
+                request.open("GET", url);
+                request.setRequestHeader("Content-Type", "application/json");
+                request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                request.setRequestHeader('Access-Control-Allow-Origin', '*');
+                request.onreadystatechange = function () {
+                    if (request.readyState == 4 && request.status == 200) {
+ 
+                        SetValuesToForm(request.responseText);
+                        $body.removeClass('loading');
+                        //alert("Hello: " + response.Name + ".\nCurrent Date and Time: " + response.DateTime);
+                    }
+                };
+                request.send(null);
+            }
+        }
+
+        function SetValuesToForm(response) 
+        {
+            console.dir(response);
+            var responseObjs = JSON.parse(response);
+
+            $('#@Model.ReturnField').val(response);
+            console.dir(responseObjs["SpecialComment"]);
+
+            var specialComment = responseObjs["SpecialComment"];
+            
+            if (specialComment != null) {
+                $('#@Model.ExportOfftakeField').val(responseObjs["SpecialComment"].split('^')[1]);
+            }
+            
+            
+            var supplyPhasesNo = responseObjs["supplyPhasesNo"];
+            
+            if (supplyPhasesNo != null) {
+                $('#@Model.CoonectionPhaseField').val(supplyPhasesNo.split('^')[1]);
+            }
+            
+            var supplyTransfomerKVA = responseObjs["supplyTransfomerKVA"];
+            
+            if (supplyTransfomerKVA != null) {
+                $('#@Model.CoonectionTypeField').val(supplyTransfomerKVA.split('^')[1]);
+            }
+            
+            var serviceOrderId = responseObjs["serviceOrderId"];
+            
+            if (serviceOrderId != null) {
+                $('#@Model.EmergencySolarManagementField').val(serviceOrderId.split('^')[1]);
+            }
+
+            var nmi = responseObjs["nmi"];
+            
+            if (nmi != null) {
+                $('#@Model.LocalNetwork').val(nmi.split('^')[1]);
+            }
+
+            $('#@Model.AddressField').append($('<option>', {
+                value: responseObjs["Address1"],
+                text: responseObjs["Address1"]
+            }));
+
+        }
+    </script>
+
+}
+
+@section Scripts{
+
+    
 }

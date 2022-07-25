@@ -74,16 +74,38 @@
 
             $('#@Model.ReturnField').val(response);
             console.dir(responseObjs["SpecialComment"]);
-            var valueToSet = responseObjs["SpecialComment"].split('^');
+
+            var specialComment = responseObjs["SpecialComment"];
             
+            if (specialComment != null) {
+                $('#@Model.ExportOfftakeField').val(responseObjs["SpecialComment"].split('^')[1]);
+            }
+            
+            
+            var supplyPhasesNo = responseObjs["supplyPhasesNo"];
+            
+            if (supplyPhasesNo != null) {
+                $('#@Model.CoonectionPhaseField').val(supplyPhasesNo.split('^')[1]);
+            }
+            
+            var supplyTransfomerKVA = responseObjs["supplyTransfomerKVA"];
+            
+            if (supplyTransfomerKVA != null) {
+                $('#@Model.CoonectionTypeField').val(supplyTransfomerKVA.split('^')[1]);
+            }
+            
+            var serviceOrderId = responseObjs["serviceOrderId"];
+            
+            if (serviceOrderId != null) {
+                $('#@Model.EmergencySolarManagementField').val(serviceOrderId.split('^')[1]);
+            }
 
-            $('#@Model.ExportOfftakeField').val(valueToSet[1]);
-             $('#@Model.CoonectionPhaseField').val(responseObjs["supplyPhasesNo"].split('^')[1]);
-            $('#@Model.CoonectionTypeField').val(responseObjs["supplyTransfomerKVA"].split('^')[1]);
-            $('#@Model.EmergencySolarManagementField').val(responseObjs["serviceOrderId"].split('^')[1]);
-            $('#@Model.LocalNetwork').val(responseObjs["nmi"].split('^')[1]);
+            var nmi = responseObjs["nmi"];
+            
+            if (nmi != null) {
+                $('#@Model.LocalNetwork').val(nmi.split('^')[1]);
+            }
 
-             console.dir("Here!");
             $('#@Model.AddressField').append($('<option>', {
                 value: responseObjs["Address1"],
                 text: responseObjs["Address1"]

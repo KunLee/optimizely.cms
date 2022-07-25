@@ -27,7 +27,7 @@ namespace repos.Services
 
                 HttpResponseMessage response = await _httpClient.PostAsJsonAsync(baseAddress + uri + "token=" + token, content);
                 response.EnsureSuccessStatusCode();
-                return response.Content;IISServerOptions 
+                return response.Content; 
             }
             catch (Exception ex) {
                 throw ex;

@@ -55,12 +55,45 @@
                 request.setRequestHeader("Content-Type", "application/json");
                 request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                 request.setRequestHeader('Access-Control-Allow-Origin', '*');
-                request.onreadystatechange = function () {
-                    if (request.readyState == 4 && request.status == 200) {
- 
-                        SetValuesToForm(request.responseText);
+                request.onreadystatechange = function (){
+                    
+                    if (request.readyState == 4) 
+                    {
                         $body.removeClass('loading');
-                        //alert("Hello: " + response.Name + ".\nCurrent Date and Time: " + response.DateTime);
+
+                        if (request.status == 200) {
+                            SetValuesToForm(request.responseText);
+
+                        } 
+                        else if (request.status >= 400 && request.status <= 499) 
+                        {
+                            alert("Client Error: " + request.status + " \nResponse: " + request.responseText);
+                        } 
+                        else if (request.status >= 500 && request.status <= 599) 
+                        {
+                            alert("Client Error: " + request.status + " \nResponse: " + request.responseText);
+                        } 
+                        else 
+                        { 
+                            // other responses
+                            /*
+                                Informational responses (100–199)
+                                Successful responses (200–299)
+                                Redirection messages (300–399)
+                                Client error responses (400–499)
+                                Server error responses (500–599)
+                            */
+                        }
+                    } else { 
+                        // request not ready readystate != 4 DONE
+                        /*
+                            Value	State	Description
+                            0	UNSENT	Client has been created. open() not called yet.
+                            1	OPENED	open() has been called.
+                            2	HEADERS_RECEIVED	send() has been called, and headers and status are available.
+                            3	LOADING	Downloading; responseText holds partial data.
+                            4	DONE	The operation is complete.
+                        */
                     }
                 };
                 request.send(null);
@@ -80,7 +113,6 @@
             if (specialComment != null) {
                 $('#@Model.ExportOfftakeField').val(responseObjs["SpecialComment"].split('^')[1]);
             }
-            
             
             var supplyPhasesNo = responseObjs["supplyPhasesNo"];
             
@@ -106,11 +138,14 @@
                 $('#@Model.LocalNetwork').val(nmi.split('^')[1]);
             }
 
-            $('#@Model.AddressField').append($('<option>', {
-                value: responseObjs["Address1"],
-                text: responseObjs["Address1"]
-            }));
+            var address = responseObjs["Address1"];
 
+            if (address != null) { 
+                $('#@Model.AddressField').append($('<option>', {
+                    value: address,
+                    text: address
+                }));
+            }
         }
     </script>
 
